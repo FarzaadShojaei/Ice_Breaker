@@ -2,12 +2,10 @@ from dotenv import load_dotenv
 from langchain.chains import LLMChain
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
+from third_parties import scrape_linkedin_profile
 
 load_dotenv()
-
-if __name__ == '__main__':
-    print("Hello Langchain")
-    information= """
+information= """
     Ever wondered about your role in #ImmersiveExperiences?
 
     In #Dubai,
@@ -19,12 +17,16 @@ if __name__ == '__main__':
     it's about active participation shaping our #DigitalLandscapes. How can your creativity transform the spaces you encounter? Join the conversation.
 
     """
-    print(os.environ['OPENAI_API_KEY'])
+
+if __name__ == '__main__':
+    print("Hello Langchain")
+ 
+#print(os.environ['OPENAI_API_KEY'])
 
     summary_template="""
-    given the information {information} about a person I want you to create:
-    1. A short summary
-    2. two interesting facts about them
+        given the information {information} about a person I want you to create:
+        1. A short summary
+        2. two interesting facts about them
 
 
     """
@@ -38,4 +40,7 @@ if __name__ == '__main__':
 
     print(res)
 
+linkedin_data=scrape_linkedin_profile(linkedin_profile_url='https://www.linkedin.com/in/farzad-shojaei/')
+print(linkedin_data.json())
+print(chain.run(information=linkedin_data))
 
